@@ -310,6 +310,7 @@ return array(
     'App\\Models\\ProductVariantItem' => $baseDir . '/app/Models/ProductVariantItem.php',
     'App\\Models\\PusherCredentail' => $baseDir . '/app/Models/PusherCredentail.php',
     'App\\Models\\RazorpayPayment' => $baseDir . '/app/Models/RazorpayPayment.php',
+    'App\\Models\\SaveForLater' => $baseDir . '/app/Models/SaveForLater.php',
     'App\\Models\\SellerMailLog' => $baseDir . '/app/Models/SellerMailLog.php',
     'App\\Models\\SellerWithdraw' => $baseDir . '/app/Models/SellerWithdraw.php',
     'App\\Models\\SeoSetting' => $baseDir . '/app/Models/SeoSetting.php',

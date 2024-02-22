@@ -978,6 +978,7 @@ class ComposerStaticInit474698736e1a9475595fa53513e2d432
         'App\\Models\\ProductVariantItem' => __DIR__ . '/../..' . '/app/Models/ProductVariantItem.php',
         'App\\Models\\PusherCredentail' => __DIR__ . '/../..' . '/app/Models/PusherCredentail.php',
         'App\\Models\\RazorpayPayment' => __DIR__ . '/../..' . '/app/Models/RazorpayPayment.php',
+        'App\\Models\\SaveForLater' => __DIR__ . '/../..' . '/app/Models/SaveForLater.php',
         'App\\Models\\SellerMailLog' => __DIR__ . '/../..' . '/app/Models/SellerMailLog.php',
         'App\\Models\\SellerWithdraw' => __DIR__ . '/../..' . '/app/Models/SellerWithdraw.php',
         'App\\Models\\SeoSetting' => __DIR__ . '/../..' . '/app/Models/SeoSetting.php',

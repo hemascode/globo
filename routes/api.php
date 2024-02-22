@@ -217,6 +217,11 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
             Route::post('store-product-review', [UserProfileController::class, 'storeProductReview'])->name('store-product-review');
             Route::post('update-review/{id}', [UserProfileController::class, 'updateReview'])->name('update-review');
 
+            Route::get('save-for-later', [UserProfileController::class, 'saveForLater'])->name('save-for-later');
+            Route::get('add-to-save-for-later/{id}', [UserProfileController::class, 'addToSaveForLater'])->name('add-to-save-for-later');
+            Route::get('remove-save-for-later/{id}', [UserProfileController::class, 'removeSaveForLater'])->name('remove-save-for-later');
+            Route::get('clear-save-for-later', [UserProfileController::class, 'clearSaveForLater'])->name('clear-save-for-later');
+
             Route::delete('remove-account', [UserProfileController::class, 'remove_account'])->name('remove-account');
 
             Route::get('message-with-seller', [MessageController::class, 'index'])->name('message-with-seller');
