@@ -3,7 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2024 at 08:35 PM
+-- Generation Time: Feb 25, 2024 at 03:49 PM
+
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -400,17 +401,18 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `slug`, `icon`, `status`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Tablet', 'tablet', 'fas fa-tablet-alt', 1, 'uploads/custom-images/electronics-2024-02-22-03-04-37-4003.png', '2022-09-20 05:16:25', '2024-02-22 09:35:35'),
-(2, 'Laptop', 'laptop', 'fas fa-laptop', 1, 'uploads/custom-images/laptop-2024-02-22-03-07-16-5889.png', '2022-09-20 05:16:50', '2024-02-23 07:01:18'),
-(3, 'Mobile', 'mobile', 'fas fa-mobile', 1, 'uploads/custom-images/mobile-2024-02-22-03-07-50-4606.png', '2022-09-20 05:17:43', '2024-02-23 05:45:14'),
-(4, 'Audio', 'audio', 'fab fa-speakap', 1, 'uploads/custom-images/speaker-2024-02-22-03-09-03-1841.png', '2022-09-20 05:24:47', '2024-02-23 05:56:19'),
-(10, 'Mobile  Accessories', 'mobile-accessories', 'fas fa-mobile-alt', 1, 'uploads/custom-images/mobile-accessories-2024-02-22-03-17-22-9538.png', '2022-09-20 06:05:41', '2024-02-23 05:57:11'),
-(12, 'computer Accessories', 'computer-accessories', 'fas fa-user-secret', 1, 'uploads/custom-images/computer-accessories-2024-02-22-03-19-06-5599.png', '2024-01-31 01:57:26', '2024-02-22 09:49:07'),
-(13, 'smart wearable watch', 'smart-wearable-watch', 'fas fa-stopwatch', 1, 'uploads/custom-images/smart-wearable-watch-2024-02-22-03-21-01-5177.png', '2024-01-31 01:59:51', '2024-02-22 09:51:01'),
-(14, 'Desktop', 'desktop-service', 'fas fa-tablet-alt', 1, 'uploads/custom-images/desktop-service-2024-02-22-03-21-40-9707.png', '2024-01-31 22:22:35', '2024-02-23 05:55:48'),
-(15, 'Camera & Acessories', 'camera-acessories', 'fas fa-camera', 1, 'uploads/custom-images/camera-acessories-2024-02-23-11-40-48-1044.png', '2024-01-31 22:32:00', '2024-02-23 06:10:48'),
-(16, 'Storage', 'storage', 'fas fa-adjust', 1, 'uploads/custom-images/storage-2024-02-23-11-49-04-7196.png', '2024-01-31 23:17:41', '2024-02-23 06:19:04');
+
+(1, 'Tablet', 'tablet', 'fas fa-tablet-alt', 1, 'uploads/custom-images/tablet-2024-02-25-05-19-10-5241.png', '2022-09-20 05:16:25', '2024-02-25 11:49:10'),
+(2, 'Laptop', 'laptop', 'fas fa-laptop', 1, 'uploads/custom-images/laptop-2024-02-25-05-23-01-9053.png', '2022-09-20 05:16:50', '2024-02-25 11:53:01'),
+(3, 'Mobile', 'mobile', 'fas fa-mobile', 1, 'uploads/custom-images/mobile-2024-02-25-05-23-20-2812.png', '2022-09-20 05:17:43', '2024-02-25 11:53:20'),
+(4, 'Audio', 'audio', 'fab fa-speakap', 1, 'uploads/custom-images/audio-2024-02-25-05-23-45-6868.png', '2022-09-20 05:24:47', '2024-02-25 11:53:45'),
+(10, 'Mobile  Accessories', 'mobile-accessories', 'fas fa-mobile-alt', 1, 'uploads/custom-images/mobile-accessories-2024-02-25-05-24-24-3229.png', '2022-09-20 06:05:41', '2024-02-25 11:54:24'),
+(12, 'computer Accessories', 'computer-accessories', 'fas fa-user-secret', 1, 'uploads/custom-images/computer-accessories-2024-02-25-05-25-06-5537.png', '2024-01-31 01:57:26', '2024-02-25 11:55:06'),
+(13, 'smart wearable watch', 'smart-wearable-watch', 'fas fa-stopwatch', 1, 'uploads/custom-images/smart-wearable-watch-2024-02-25-05-25-29-8269.png', '2024-01-31 01:59:51', '2024-02-25 11:55:29'),
+(14, 'Desktop', 'desktop-service', 'fas fa-tablet-alt', 1, 'uploads/custom-images/desktop-2024-02-25-05-25-49-6654.png', '2024-01-31 22:22:35', '2024-02-25 11:55:49'),
+(15, 'Camera & Acessories', 'camera-acessories', 'fas fa-camera', 1, 'uploads/custom-images/camera-acessories-2024-02-25-05-26-04-7504.png', '2024-01-31 22:32:00', '2024-02-25 11:56:04'),
+(16, 'Storage', 'storage', 'fas fa-adjust', 1, 'uploads/custom-images/storage-2024-02-25-05-26-18-8641.png', '2024-01-31 23:17:41', '2024-02-25 11:56:35');
+
 
 -- --------------------------------------------------------
 
@@ -2157,7 +2159,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (125, '2023_02_18_110336_create_delivery_man_reviews_table', 72),
 (126, '2023_02_20_101257_create_delivery_messages_table', 72),
 (127, '2023_07_17_042611_add_user_id_to_shopping_cart_variants', 73),
-(128, '2023_07_17_043209_add_version_number_to_settings', 73);
+(128, '2023_07_17_043209_add_version_number_to_settings', 73),
+(129, '2022_01_11_105950_create_save_for_laters_table', 74);
 
 -- --------------------------------------------------------
 
@@ -2993,6 +2996,20 @@ CREATE TABLE `razorpay_payments` (
 
 INSERT INTO `razorpay_payments` (`id`, `status`, `name`, `currency_rate`, `country_code`, `currency_code`, `description`, `image`, `color`, `key`, `secret_key`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Ecommerce', 74.66, 'IN', 'INR', 'This is description', 'uploads/website-images/razorpay-2021-12-14-06-35-49-6602.png', '#2d15e5', 'rzp_test_K7CipNQYyyMPiS', 'zSBmNMorJrirOrnDrbOd1ALO', NULL, '2022-11-18 02:24:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `save_for_laters`
+--
+
+CREATE TABLE `save_for_laters` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -4259,6 +4276,12 @@ ALTER TABLE `razorpay_payments`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `save_for_laters`
+--
+ALTER TABLE `save_for_laters`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `seller_mail_logs`
 --
 ALTER TABLE `seller_mail_logs`
@@ -4753,7 +4776,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT for table `myfatoorah_payments`
@@ -4886,6 +4909,12 @@ ALTER TABLE `pusher_credentails`
 --
 ALTER TABLE `razorpay_payments`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `save_for_laters`
+--
+ALTER TABLE `save_for_laters`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `seller_mail_logs`
