@@ -4,6 +4,7 @@
 --
 -- Host: 127.0.0.1
 -- Generation Time: Feb 25, 2024 at 03:49 PM
+
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -400,7 +401,7 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `slug`, `icon`, `status`, `image`, `created_at`, `updated_at`) VALUES
+
 (1, 'Tablet', 'tablet', 'fas fa-tablet-alt', 1, 'uploads/custom-images/tablet-2024-02-25-05-19-10-5241.png', '2022-09-20 05:16:25', '2024-02-25 11:49:10'),
 (2, 'Laptop', 'laptop', 'fas fa-laptop', 1, 'uploads/custom-images/laptop-2024-02-25-05-23-01-9053.png', '2022-09-20 05:16:50', '2024-02-25 11:53:01'),
 (3, 'Mobile', 'mobile', 'fas fa-mobile', 1, 'uploads/custom-images/mobile-2024-02-25-05-23-20-2812.png', '2022-09-20 05:17:43', '2024-02-25 11:53:20'),
@@ -411,6 +412,7 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `icon`, `status`, `image`, `crea
 (14, 'Desktop', 'desktop-service', 'fas fa-tablet-alt', 1, 'uploads/custom-images/desktop-2024-02-25-05-25-49-6654.png', '2024-01-31 22:22:35', '2024-02-25 11:55:49'),
 (15, 'Camera & Acessories', 'camera-acessories', 'fas fa-camera', 1, 'uploads/custom-images/camera-acessories-2024-02-25-05-26-04-7504.png', '2024-01-31 22:32:00', '2024-02-25 11:56:04'),
 (16, 'Storage', 'storage', 'fas fa-adjust', 1, 'uploads/custom-images/storage-2024-02-25-05-26-18-8641.png', '2024-01-31 23:17:41', '2024-02-25 11:56:35');
+
 
 -- --------------------------------------------------------
 
