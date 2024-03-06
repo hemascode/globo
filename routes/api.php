@@ -98,7 +98,9 @@ use App\Http\Controllers\User\AddressCotroller;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\WEB\Admin\ProductCategoryController as AdminProductCategoryController;
 
+Route::get('get_categories', [AdminProductCategoryController::class, 'api_getCategories']);
 
 Route::group([
     'prefix' => 'auth'

@@ -32,9 +32,11 @@ use App\Events\SellerToUser;
 use App\Models\OrderAddress;
 use App\Models\OrderProductVariant;
 use App\Models\Address;
+use App\Models\File as ModelsFile;
 use App\Models\SaveForLater;
 use App\Models\ShoppingCart;
 use App\Models\ShoppingCartVariant;
+use App\Models\VendorVerification;
 
 class UserProfileController extends Controller
 {
@@ -277,7 +279,7 @@ class UserProfileController extends Controller
 
     public function sellerRequest(Request $request)
     {
-
+        // dd("test");
         $user = Auth::guard('api')->user();
         $seller = Vendor::where('user_id', $user->id)->first();
         if ($seller) {
@@ -286,7 +288,8 @@ class UserProfileController extends Controller
         }
 
         $rules = [
-            'banner_image' => 'required',
+            'registration_document' => 'required',
+            'logo' => 'required',
             'logo' => 'required',
             'shop_name' => 'required|unique:vendors',
             'email' => 'required|unique:vendors',
@@ -298,6 +301,7 @@ class UserProfileController extends Controller
         ];
 
         $customMessages = [
+            'registration_document.required' => trans('user_validation.Registration Document is required'),
             'logo.required' => trans('user_validation.Logo is required'),
             'banner_image.required' => trans('user_validation.Banner image is required'),
             'shop_name.required' => trans('user_validation.Shop name is required'),
@@ -326,6 +330,8 @@ class UserProfileController extends Controller
         $seller->seo_title = $request->shop_name;
         $seller->seo_description = $request->shop_name;
 
+
+
         if ($request->banner_image) {
             $exist_banner = $seller->banner_image;
             $extention = $request->banner_image->getClientOriginalExtension();
@@ -351,6 +357,26 @@ class UserProfileController extends Controller
         }
 
         $seller->save();
+
+        if ($request->registration_document) {
+            $extension = $request->registration_document->getClientOriginalExtension();
+            $document_name = 'seller-document' . date('-Y-m-d-h-i-s-') . rand(999, 9999) . '.' . $extension;
+            $document_path = 'uploads/seller-documents/' . $document_name;
+            $request->registration_document->move(public_path('uploads/seller-documents'), $document_name);
+
+            $file = new ModelsFile();
+            $file->path = $document_path;
+            $file->save();
+
+            $file_verification = new VendorVerification();
+
+            $file_verification->vendor_id = $seller->id;
+            $file_verification->file_id = $file->id;
+            $file_verification->status_id = 1;
+            $file_verification->verified_by = 1;
+            $file_verification->save();
+
+        }
         $notification = trans('user_validation.Request sumited successfully');
         return response()->json(['notification' => $notification], 200);
     }

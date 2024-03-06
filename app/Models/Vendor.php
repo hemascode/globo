@@ -10,28 +10,39 @@ class Vendor extends Model
     use HasFactory;
 
 
+    
     protected $appends = ['averageRating'];
 
     public function getAverageRatingAttribute()
     {
-        return $this->activeReviews()->avg('rating') ? : '0';
+        return $this->activeReviews()->avg('rating') ?: '0';
     }
 
-    public function socialLinks(){
+    public function socialLinks()
+    {
         return $this->hasMany(VendorSocialLink::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function products(){
-        return $this->hasMany(Product::class,'vendor_id');
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'vendor_id');
     }
 
-    public function activeReviews(){
-        return $this->hasMany(ProductReview::class,'product_vendor_id');
+    public function activeReviews()
+    {
+        return $this->hasMany(ProductReview::class, 'product_vendor_id');
     }
 
-
+    public function files()
+    {
+        return $this->belongsToMany(File::class, 'vendor_verifications')
+            ->using(VendorVerification::class)
+            ->withPivot('status_id', 'remarks', 'verified_by')
+            ->withTimestamps();
+    }
 }
