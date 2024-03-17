@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 
-use App\Http\Controllers\Admin\DashboardController;
+
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
 use App\Http\Controllers\Admin\Auth\AdminForgotPasswordController;
-use App\Http\Controllers\Admin\AdminProfileController;
-use App\Http\Controllers\Admin\ProductCategoryController;
-use App\Http\Controllers\Admin\ProductSubCategoryController;
-use App\Http\Controllers\Admin\ProductChildCategoryController;
+use App\Http\Controllers\Admin\Api\AdminProfileController;
+use App\Http\Controllers\Admin\Api\ProductCategoryController;
+use App\Http\Controllers\Admin\Api\ProductSubCategoryController;
+use App\Http\Controllers\Admin\Api\ProductChildCategoryController;
 use App\Http\Controllers\Admin\ProductBrandController;
 use App\Http\Controllers\Admin\SpecificationKeyController;
 use App\Http\Controllers\Admin\TestimonialController;
@@ -46,15 +46,15 @@ use App\Http\Controllers\Admin\CountryStateController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\SellerController;
-use App\Http\Controllers\Admin\MegaMenuController;
-use App\Http\Controllers\Admin\MegaMenuSubCategoryController;
+use App\Http\Controllers\Admin\Api\MegaMenuController;
+use App\Http\Controllers\Admin\Api\MegaMenuSubCategoryController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\HomePageController;
 use App\Http\Controllers\Admin\ShippingMethodController;
 use App\Http\Controllers\Admin\WithdrawMethodController;
 use App\Http\Controllers\Admin\SellerWithdrawController;
 use App\Http\Controllers\Admin\ProductReportController;
-use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\Api\OrderController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\BreadcrumbController;
 use App\Http\Controllers\Admin\FooterController;
@@ -64,6 +64,7 @@ use App\Http\Controllers\Admin\HomepageVisibilityController;
 use App\Http\Controllers\Admin\MenuVisibilityController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\AdvertisementController;
+use App\Http\Controllers\Admin\Api\DashboardController;
 use App\Http\Controllers\Admin\FlashSaleController;
 
 
@@ -99,6 +100,7 @@ use App\Http\Controllers\User\AddressCotroller;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\WEB\Admin\ProductCategoryController as AdminProductCategoryController;
+use App\Http\Controllers\WEB\Seller\Auth\SellerLoginController;
 
 Route::get('get_categories', [AdminProductCategoryController::class, 'api_getCategories']);
 
@@ -350,29 +352,48 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::get('/', [DashboardController::class, 'dashobard'])->name('dashboard');
         Route::get('dashboard', [DashboardController::class, 'dashobard'])->name('dashboard');
         Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
-        Route::put('profile-update', [AdminProfileController::class, 'update'])->name('profile.update');
+        Route::post('profile-update', [AdminProfileController::class, 'update'])->name('profile.update');
 
-        Route::resource('product-category', ProductCategoryController::class);
-        Route::put('product-category-status/{id}', [ProductCategoryController::class, 'changeStatus'])->name('product.category.status');
+        // Product Category
+        Route::get('product-category', [ProductCategoryController::class, 'index']);
+        Route::post('product-category/store', [ProductCategoryController::class, 'store']);
+        Route::post('product-category/update', [ProductCategoryController::class, 'update']);
 
-        Route::resource('product-sub-category', ProductSubCategoryController::class);
-        Route::put('product-sub-category-status/{id}', [ProductSubCategoryController::class, 'changeStatus'])->name('product.sub.category.status');
+        // Product Sub Category
+        Route::get('product-sub-category', [ProductSubCategoryController::class, 'index']);
+        Route::post('product-sub-category/store', [ProductSubCategoryController::class, 'store']);
+        Route::post('product-sub-category/update', [ProductSubCategoryController::class, 'update']);
 
-        Route::resource('product-child-category', ProductChildCategoryController::class);
-        Route::put('product-child-category-status/{id}', [ProductChildCategoryController::class, 'changeStatus'])->name('product.child.category.status');
-        Route::get('subcategory-by-category/{id}', [ProductChildCategoryController::class, 'getSubcategoryByCategory'])->name('subcategory-by-category');
-        Route::get('childcategory-by-subcategory/{id}', [ProductChildCategoryController::class, 'getChildcategoryBySubCategory'])->name('childcategory-by-subcategory');
 
-        Route::resource('product-brand', ProductBrandController::class);
-        Route::put('product-brand-status/{id}', [ProductBrandController::class, 'changeStatus'])->name('product.brand.status');
+        // Product Child Category
+        Route::get('product-child-category', [ProductChildCategoryController::class, 'index']);
+        Route::post('product-child-category/store', [ProductChildCategoryController::class, 'store']);
+        Route::post('product-child-category/update', [ProductChildCategoryController::class, 'update']);
 
-        Route::resource('specification-key', SpecificationKeyController::class);
-        Route::put('specification-key-status/{id}', [SpecificationKeyController::class, 'changeStatus'])->name('specification-key.status');
+        // Mega Menu Category
+        // Route::resource('mega-menu-category', MegaMenuController::class);
+        // Route::put('mega-menu-category-status/{id}', [MegaMenuController::class, 'changeStatus'])->name('mega-menu-category-status');
 
-        Route::resource('testimonial', TestimonialController::class);
-        Route::put('testimonial-status/{id}', [TestimonialController::class, 'changeStatus'])->name('testimonial.status');
+        Route::get('mega-menu-category', [MegaMenuController::class, 'index']);
+        Route::post('mega-menu-category/store', [MegaMenuController::class, 'store'])->name('mega-menu-category.store');
+        // Route::put('mega-menu-category-status/{id}', [MegaMenuController::class, 'changeStatus'])->name('mega-menu-category-status');
 
-        Route::resource('product', ProductController::class);
+        // Popular Category
+        Route::get('popular-category', [HomePageController::class, 'popularCategory'])->name('popular-category');
+        Route::post('store-popular-category/store', [HomePageController::class, 'storePopularCategory'])->name('store-popular-category');
+        Route::delete('destroy-popular-category/{id}', [HomePageController::class, 'destroyPopularCategory'])->name('destroy-popular-category');
+
+        // Feature Category
+        Route::get('featured-category', [HomePageController::class, 'featuredCategory'])->name('featured-category');
+        Route::post('store-featured-category', [HomePageController::class, 'storeFeaturedCategory'])->name('store-featured-category');
+        Route::delete('destroy-featured-category/{id}', [HomePageController::class, 'destroyFeaturedCategory'])->name('destroy-featured-category');
+
+        // Product Brand
+        Route::get('product-brand', [ProductBrandController::class, 'index']);
+        // Route::put('product-brand-status/{id}', [ProductBrandController::class, 'changeStatus'])->name('product.brand.status');
+
+        // Products
+        Route::get('product', [ProductController::class, 'index']);
         Route::get('create-product-info', [ProductController::class, 'create'])->name('create-product-info');
         Route::put('product-status/{id}', [ProductController::class, 'changeStatus'])->name('product.status');
         Route::put('removed-product-exist-specification/{id}', [ProductController::class, 'removedProductExistSpecification'])->name('removed-product-exist-specification');
@@ -380,6 +401,20 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::get('seller-pending-product', [ProductController::class, 'sellerPendingProduct'])->name('seller-pending-product');
         Route::get('product-highlight/{id}', [ProductController::class, 'productHighlight'])->name('product-highlight');
         Route::put('update-product-highlight/{id}', [ProductController::class, 'productHighlightUpdate'])->name('update-product-highlight');
+
+
+        Route::put('product-child-category-status/{id}', [ProductChildCategoryController::class, 'changeStatus'])->name('product.child.category.status');
+        Route::get('subcategory-by-category/{id}', [ProductChildCategoryController::class, 'getSubcategoryByCategory'])->name('subcategory-by-category');
+        Route::get('childcategory-by-subcategory/{id}', [ProductChildCategoryController::class, 'getChildcategoryBySubCategory'])->name('childcategory-by-subcategory');
+
+
+        Route::resource('specification-key', SpecificationKeyController::class);
+        Route::put('specification-key-status/{id}', [SpecificationKeyController::class, 'changeStatus'])->name('specification-key.status');
+
+        Route::resource('testimonial', TestimonialController::class);
+        Route::put('testimonial-status/{id}', [TestimonialController::class, 'changeStatus'])->name('testimonial.status');
+
+
 
 
 
@@ -588,12 +623,12 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::get('login-page', [ContentController::class, 'loginPage'])->name('login-page');
         Route::post('update-login-page', [ContentController::class, 'updateloginPage'])->name('update-login-page');
 
-        Route::get('shop-page', [ContentController::Class, 'shopPage'])->name('shop-page');
-        Route::put('update-filter-price', [ContentController::Class, 'updateFilterPrice'])->name('update-filter-price');
+        Route::get('shop-page', [ContentController::class, 'shopPage'])->name('shop-page');
+        Route::put('update-filter-price', [ContentController::class, 'updateFilterPrice'])->name('update-filter-price');
 
-        Route::get('seo-setup', [ContentController::Class, 'seoSetup'])->name('seo-setup');
-        Route::put('update-seo-setup/{id}', [ContentController::Class, 'updateSeoSetup'])->name('update-seo-setup');
-        Route::get('get-seo-setup/{id}', [ContentController::Class, 'getSeoSetup'])->name('get-seo-setup');
+        Route::get('seo-setup', [ContentController::class, 'seoSetup'])->name('seo-setup');
+        Route::put('update-seo-setup/{id}', [ContentController::class, 'updateSeoSetup'])->name('update-seo-setup');
+        Route::get('get-seo-setup/{id}', [ContentController::class, 'getSeoSetup'])->name('get-seo-setup');
 
 
 
@@ -617,8 +652,7 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::put('update-instamojo', [PaymentMethodController::class, 'updateInstamojo'])->name('update-instamojo');
         Route::put('update-cash-on-delivery', [PaymentMethodController::class, 'updateCashOnDelivery'])->name('update-cash-on-delivery');
 
-        Route::resource('mega-menu-category', MegaMenuController::class);
-        Route::put('mega-menu-category-status/{id}', [MegaMenuController::class, 'changeStatus'])->name('mega-menu-category-status');
+
 
         Route::get('mega-menu-sub-category/{id}', [MegaMenuSubCategoryController::class, 'index'])->name('mega-menu-sub-category');
         Route::get('create-mega-menu-sub-category/{id}', [MegaMenuSubCategoryController::class, 'create'])->name('create-mega-menu-sub-category');
@@ -634,13 +668,9 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::put('slider-status/{id}', [SliderController::class, 'changeStatus'])->name('slider-status');
 
 
-        Route::get('popular-category', [HomePageController::class, 'popularCategory'])->name('popular-category');
-        Route::post('store-popular-category', [HomePageController::class, 'storePopularCategory'])->name('store-popular-category');
-        Route::delete('destroy-popular-category/{id}', [HomePageController::class, 'destroyPopularCategory'])->name('destroy-popular-category');
 
-        Route::get('featured-category', [HomePageController::class, 'featuredCategory'])->name('featured-category');
-        Route::post('store-featured-category', [HomePageController::class, 'storeFeaturedCategory'])->name('store-featured-category');
-        Route::delete('destroy-featured-category/{id}', [HomePageController::class, 'destroyFeaturedCategory'])->name('destroy-featured-category');
+
+
 
 
 
@@ -663,6 +693,7 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::delete('delete-seller-withdraw/{id}', [SellerWithdrawController::class, 'destroy'])->name('delete-seller-withdraw');
         Route::put('approved-seller-withdraw/{id}', [SellerWithdrawController::class, 'approvedWithdraw'])->name('approved-seller-withdraw');
 
+        // Orders
         Route::get('all-order', [OrderController::class, 'index'])->name('all-order');
         Route::get('pending-order', [OrderController::class, 'pendingOrder'])->name('pending-order');
         Route::get('pregress-order', [OrderController::class, 'pregressOrder'])->name('pregress-order');
@@ -670,9 +701,9 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::get('completed-order', [OrderController::class, 'completedOrder'])->name('completed-order');
         Route::get('declined-order', [OrderController::class, 'declinedOrder'])->name('declined-order');
         Route::get('cash-on-delivery', [OrderController::class, 'cashOnDelivery'])->name('cash-on-delivery');
-        Route::get('order-show/{id}', [OrderController::class, 'show'])->name('order-show');
-        Route::delete('delete-order/{id}', [OrderController::class, 'destroy'])->name('delete-order');
-        Route::put('update-order-status/{id}', [OrderController::class, 'updateOrderStatus'])->name('update-order-status');
+        Route::get('order-show', [OrderController::class, 'show'])->name('order-show');
+        Route::post('delete-order', [OrderController::class, 'destroy'])->name('delete-order');
+        Route::post('update-order-status', [OrderController::class, 'updateOrderStatus'])->name('update-order-status');
 
         Route::resource('coupon', CouponController::class);
         Route::put('coupon-status/{id}', [CouponController::class, 'changeStatus'])->name('coupon-status');
@@ -701,3 +732,8 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::post('update-validation-language', [LanguageController::class, 'updateValidationLanguage'])->name('update-validation-language');
     });
 });
+
+
+Route::get('seller/login', [SellerLoginController::class, 'sellerLoginPage'])->name('seller.login');
+Route::post('seller/login', [SellerLoginController::class, 'storeLogin'])->name('seller.login');
+Route::get('seller/logout', [SellerLoginController::class, 'adminLogout'])->name('seller.logout');

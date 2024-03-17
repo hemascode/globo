@@ -375,7 +375,6 @@ class UserProfileController extends Controller
             $file_verification->status_id = 1;
             $file_verification->verified_by = 1;
             $file_verification->save();
-
         }
         $notification = trans('user_validation.Request sumited successfully');
         return response()->json(['notification' => $notification], 200);

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BreadcrumbController as AdminBreadcrumbController;
+use App\Http\Controllers\Admin\HomepageVisibilityController;
+use App\Http\Controllers\Admin\MenuVisibilityController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
@@ -62,7 +65,6 @@ use App\Http\Controllers\WEB\Admin\ProductReportController;
 use App\Http\Controllers\WEB\Admin\ProductReviewController;
 use App\Http\Controllers\WEB\Seller\SellerMessageContoller;
 use App\Http\Controllers\WEB\Admin\ContactMessageController;
-use App\Http\Controllers\WEB\Admin\MenuVisibilityController;
 use App\Http\Controllers\WEB\Admin\ProductGalleryController;
 use App\Http\Controllers\WEB\Admin\ProductVariantController;
 use App\Http\Controllers\WEB\Admin\SellerWithdrawController;
@@ -82,7 +84,6 @@ use App\Http\Controllers\WEB\Admin\TermsAndConditionController;
 
 use App\Http\Controllers\WEB\Seller\Auth\SellerLoginController;
 use App\Http\Controllers\WEB\Admin\EmailConfigurationController;
-use App\Http\Controllers\WEB\Admin\HomepageVisibilityController;
 use App\Http\Controllers\WEB\Admin\ProductSubCategoryController;
 use App\Http\Controllers\WEB\Admin\ProductVariantItemController;
 use App\Http\Controllers\WEB\Admin\DeliveryManWithdrawController;
@@ -108,10 +109,9 @@ use App\Http\Controllers\WEB\Seller\Auth\SellerForgotPasswordController;
 use App\Http\Controllers\WEB\Deliveryman\Auth\DeliveryManLoginController;
 use App\Http\Controllers\WEB\Deliveryman\Auth\DeliveryManResetPasswordController;
 use App\Http\Controllers\WEB\Seller\InventoryController as SellerInventoryController;
+use Illuminate\Support\Facades\Broadcast;
 
-
-
-// Broadcast::routes(['middleware' => ['auth:web']]);
+Broadcast::routes(['middleware' => ['auth:web']]);
 
 Broadcast::routes(['prefix' => 'seller', 'middleware' => 'auth:web']);
 
@@ -122,7 +122,7 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('/login', 'Auth\LoginController@login')->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
 
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
@@ -186,6 +186,10 @@ Route::group(['as' => 'user.', 'prefix' => 'user'], function () {
     });
 });
 
+Route::get('seller/login', [SellerLoginController::class, 'sellerLoginPage'])->name('seller.login');
+Route::post('seller/login', [SellerLoginController::class, 'storeLogin'])->name('seller.login');
+Route::get('seller/logout', [SellerLoginController::class, 'adminLogout'])->name('seller.logout');
+
 
 
 Route::group(['middleware' => ['demo', 'XSS']], function () {
@@ -195,9 +199,7 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
             return redirect()->route('admin.login');
         })->name('home');
 
-        Route::get('seller/login', [SellerLoginController::class, 'sellerLoginPage'])->name('seller.login');
-        Route::post('seller/login', [SellerLoginController::class, 'storeLogin'])->name('seller.login');
-        Route::get('seller/logout', [SellerLoginController::class, 'adminLogout'])->name('seller.logout');
+
 
         Route::group(['as' => 'seller.', 'prefix' => 'seller'], function () {
             Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
@@ -348,20 +350,16 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::get('login', [AdminLoginController::class, 'adminLoginPage'])->name('login');
         Route::post('login', [AdminLoginController::class, 'storeLogin'])->name('login');
         Route::post('logout', [AdminLoginController::class, 'adminLogout'])->name('logout');
-        Route::get('forget-password', [AdminForgotPasswordController::class, 'forgetPassword'])->name('forget-password');
-        Route::post('send-forget-password', [AdminForgotPasswordController::class, 'sendForgetEmail'])->name('send.forget.password');
-        Route::get('reset-password/{token}', [AdminForgotPasswordController::class, 'resetPassword'])->name('reset.password');
-        Route::post('password-store/{token}', [AdminForgotPasswordController::class, 'storeResetData'])->name('store.reset.password');
         // end auth route
 
         Route::get('/', [DashboardController::class, 'dashobard'])->name('dashboard');
         Route::get('dashboard', [DashboardController::class, 'dashobard'])->name('dashboard');
         Route::get('profile', [AdminProfileController::class, 'index'])->name('profile');
-        Route::post('/admin/update-login-page', 'YourController@updateLoginPage')->name('admin.update-login-page')->middleware('web');
 
 
         Route::resource('product-category', ProductCategoryController::class);
         Route::put('product-category-status/{id}', [ProductCategoryController::class, 'changeStatus'])->name('product.category.status');
+        // Route::post('product-category/update/{id}', [ProductCategoryController::class, 'update']);
 
         Route::resource('product-sub-category', ProductSubCategoryController::class);
         Route::put('product-sub-category-status/{id}', [ProductSubCategoryController::class, 'changeStatus'])->name('product.sub.category.status');
@@ -609,12 +607,12 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::get('image-content', [ContentController::class, 'image_content'])->name('image-content');
         Route::post('update-image-content', [ContentController::class, 'updateImageContent'])->name('update-image-content');
 
-        Route::get('shop-page', [ContentController::Class, 'shopPage'])->name('shop-page');
-        Route::put('update-filter-price', [ContentController::Class, 'updateFilterPrice'])->name('update-filter-price');
+        Route::get('shop-page', [ContentController::class, 'shopPage'])->name('shop-page');
+        Route::put('update-filter-price', [ContentController::class, 'updateFilterPrice'])->name('update-filter-price');
 
-        Route::get('seo-setup', [ContentController::Class, 'seoSetup'])->name('seo-setup');
-        Route::put('update-seo-setup/{id}', [ContentController::Class, 'updateSeoSetup'])->name('update-seo-setup');
-        Route::get('get-seo-setup/{id}', [ContentController::Class, 'getSeoSetup'])->name('get-seo-setup');
+        Route::get('seo-setup', [ContentController::class, 'seoSetup'])->name('seo-setup');
+        Route::put('update-seo-setup/{id}', [ContentController::class, 'updateSeoSetup'])->name('update-seo-setup');
+        Route::get('get-seo-setup/{id}', [ContentController::class, 'getSeoSetup'])->name('get-seo-setup');
 
 
 
@@ -728,7 +726,7 @@ Route::group(['middleware' => ['demo', 'XSS']], function () {
         Route::resource('coupon', CouponController::class);
         Route::put('coupon-status/{id}', [CouponController::class, 'changeStatus'])->name('coupon-status');
 
-        Route::resource('banner-image', BreadcrumbController::class);
+        Route::resource('banner-image', AdminBreadcrumbController::class);
 
         Route::resource('footer', FooterController::class);
         Route::resource('social-link', FooterSocialLinkController::class);
